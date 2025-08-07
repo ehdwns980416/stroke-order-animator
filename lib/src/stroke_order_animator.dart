@@ -35,7 +35,7 @@ class StrokeOrderAnimatorState extends State<StrokeOrderAnimator> {
 
     final painter = CharacterPainter(controller);
     final bounds = painter.getPaintBounds();
-    final dynamicSize = Size(bounds.width, bounds.height);
+    final dynamicSize = Size(bounds.width, widget.size.height);
 
     return ListenableBuilder(
       listenable: controller,
