@@ -147,6 +147,24 @@ class CharacterPainter extends CustomPainter {
     );
   }
 
+  Rect getPaintBounds() {
+    double minX = double.infinity;
+    double minY = double.infinity;
+    double maxX = double.negativeInfinity;
+    double maxY = double.negativeInfinity;
+
+    for (final median in controller.strokeOrder.medians) {
+      for (final point in median) {
+        if (point.dx < minX) minX = point.dx;
+        if (point.dy < minY) minY = point.dy;
+        if (point.dx > maxX) maxX = point.dx;
+        if (point.dy > maxY) maxY = point.dy;
+      }
+    }
+
+    return Rect.fromLTRB(minX, minY, maxX, maxY);
+  }
+
   @override
   bool shouldRepaint(CharacterPainter oldDelegate) => true;
 }

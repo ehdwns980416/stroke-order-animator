@@ -33,6 +33,10 @@ class StrokeOrderAnimatorState extends State<StrokeOrderAnimator> {
   Widget build(BuildContext context) {
     final controller = widget._controller;
 
+    final painter = CharacterPainter(controller);
+    final bounds = painter.getPaintBounds();
+    final dynamicSize = Size(bounds.width, bounds.height);
+
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) => GestureDetector(
@@ -66,19 +70,18 @@ class StrokeOrderAnimatorState extends State<StrokeOrderAnimator> {
           });
         },
         child: SizedBox(
-          width: widget.size.width,
-          height: widget.size.height,
+          width: dynamicSize.width,
+          height: dynamicSize.height,
           child: Stack(
-            fit: StackFit.expand,
             children: [
-              CustomPaint(painter: CharacterPainter(controller)),
+              CustomPaint(painter: painter),
               if (controller.showUserStroke)
                 ..._paintCorrectUserStrokes(controller, widget.size),
               if (controller.isQuizzing && _currentUserStroke.isNotEmpty)
                 _paintCurrentUserStroke(
                   _currentUserStroke,
                   controller,
-                  widget.size,
+                  dynamicSize,
                 ),
             ],
           ),
